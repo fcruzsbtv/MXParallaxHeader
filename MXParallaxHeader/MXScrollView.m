@@ -63,7 +63,7 @@ static void * const kMXScrollViewKVOContext = (void*)&kMXScrollViewKVOContext;
     self.directionalLockEnabled = YES;
     self.bounces = YES;
     
-    self.panGestureRecognizer.cancelsTouchesInView = NO;
+    self.panGestureRecognizer.cancelsTouchesInView = YES;
     
     [self addObserver:self forKeyPath:NSStringFromSelector(@selector(contentOffset))
               options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
