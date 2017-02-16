@@ -102,7 +102,7 @@ static void * const kMXScrollViewKVOContext = (void*)&kMXScrollViewKVOContext;
 #pragma mark <UIGestureRecognizerDelegate>
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
-    
+    self.panGestureRecognizer.cancelsTouchesInView = NO;
     if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
         CGPoint velocity = [(UIPanGestureRecognizer*)gestureRecognizer velocityInView:self];
         
@@ -219,14 +219,19 @@ static void * const kMXScrollViewKVOContext = (void*)&kMXScrollViewKVOContext;
 #pragma mark <UIScrollViewDelegate>
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
     if (self.contentOffset.y > -self.parallaxHeader.minimumHeight) {
+        self.panGestureRecognizer.cancelsTouchesInView = NO;
         [self scrollView:self setContentOffset:CGPointMake(self.contentOffset.x, -self.parallaxHeader.minimumHeight)];
+    }else{
+        self.panGestureRecognizer.cancelsTouchesInView = YES;
     }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     _lock = NO;
     [self removeObservedViews];
+    
 }
 
 @end
