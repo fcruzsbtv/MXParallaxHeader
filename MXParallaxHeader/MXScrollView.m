@@ -193,16 +193,23 @@ static void * const kMXScrollViewKVOContext = (void*)&kMXScrollViewKVOContext;
 
 - (void)addObservedView:(UIScrollView *)scrollView {
     if (![self.observedViews containsObject:scrollView]) {
-        [self.observedViews addObject:scrollView];
-        [self addObserverToView:scrollView];
+        if (![NSStringFromClass([scrollView class]) isEqualToString: @"_UIWebViewScrollView"]){
+            [self.observedViews addObject:scrollView];
+            [self addObserverToView:scrollView];
+        }
     }
+    NSLog(@"addObservedView: %@",scrollView.class);
 }
 
 - (void)removeObservedViews {
     for (UIScrollView *scrollView in self.observedViews) {
-        [self removeObserverFromView:scrollView];
+        if (![NSStringFromClass([scrollView class]) isEqualToString: @"_UIWebViewScrollView"]){
+            [self removeObserverFromView:scrollView];
+        }
+        
     }
     [self.observedViews removeAllObjects];
+    NSLog(@"removeObservedViews");
 }
 
 - (void)scrollView:(UIScrollView *)scrollView setContentOffset:(CGPoint)offset {
