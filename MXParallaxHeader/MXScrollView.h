@@ -54,6 +54,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, weak, nullable) IBOutlet id<MXScrollViewDelegate> delegate;
 
+@property (nonatomic) BOOL removeObserverInScrollViewDidEndDecelerating;
+- (void)addObserverToView:(UIScrollView *)scrollView;
+
+- (void)removeObserverFromView:(UIScrollView *)scrollView;
+
 @end
 
 NS_ASSUME_NONNULL_END

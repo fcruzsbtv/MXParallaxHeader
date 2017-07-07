@@ -61,6 +61,7 @@ static void * const kMXScrollViewKVOContext = (void*)&kMXScrollViewKVOContext;
     super.delegate = self.delegateForwarder;
     self.showsVerticalScrollIndicator = NO;
     self.directionalLockEnabled = YES;
+    self.removeObserverInScrollViewDidEndDecelerating = YES;
     self.bounces = YES;
     
     self.panGestureRecognizer.cancelsTouchesInView = YES;
@@ -193,23 +194,21 @@ static void * const kMXScrollViewKVOContext = (void*)&kMXScrollViewKVOContext;
 
 - (void)addObservedView:(UIScrollView *)scrollView {
     if (![self.observedViews containsObject:scrollView]) {
-        if (![NSStringFromClass([scrollView class]) isEqualToString: @"_UIWebViewScrollView"]){
+//        if (![NSStringFromClass([scrollView class]) isEqualToString: @"_UIWebViewScrollView"]){
             [self.observedViews addObject:scrollView];
             [self addObserverToView:scrollView];
-        }
+//        }
     }
-    NSLog(@"addObservedView: %@",scrollView.class);
 }
 
 - (void)removeObservedViews {
     for (UIScrollView *scrollView in self.observedViews) {
-        if (![NSStringFromClass([scrollView class]) isEqualToString: @"_UIWebViewScrollView"]){
+//        if (![NSStringFromClass([scrollView class]) isEqualToString: @"_UIWebViewScrollView"]){
             [self removeObserverFromView:scrollView];
-        }
+//        }
         
     }
     [self.observedViews removeAllObjects];
-    NSLog(@"removeObservedViews");
 }
 
 - (void)scrollView:(UIScrollView *)scrollView setContentOffset:(CGPoint)offset {
@@ -237,7 +236,9 @@ static void * const kMXScrollViewKVOContext = (void*)&kMXScrollViewKVOContext;
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     _lock = NO;
-    [self removeObservedViews];
+    if (self.removeObserverInScrollViewDidEndDecelerating){
+        [self removeObservedViews];
+    }
     
 }
 
