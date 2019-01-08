@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "SBTVParallaxHeader"
-  s.version          = "0.6.0"
+  s.version          = "0.7.0"
   s.summary          = "Fork from MXParallaxHeader."
   s.description      = <<-DESC
   							MXParallaxHeader is a simple header class for UIScrolView.
